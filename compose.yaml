@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # Service de base de données
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    container_name: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - my-network
+
+ 
+  backend:
+    build:
+      context: ./backend  
+      dockerfile: Dockerfile
+    container_name: nest-docker-postgres
+    environment:
+      - PORT=3000
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres?schema=public
+      - JWT_SECRET=edb49326f1d9fa9e1a37d655d4f330431672b9bb2cf1447f8c64a410b4d58067
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    volumes:
+      - ./backend/src:/app/src
+    networks:
+      - my-network
+
+ 
+  frontend:
+    build:
+      context: ./frontend  
+      dockerfile: Dockerfile
+    container_name: romantic-black
+    ports:
+      - '3001:3000'
+    depends_on:
+      - backend
+    networks:
+      - my-network
+
+ 
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: nest-pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=pgadmin4
+    ports:
+      - '5050:80'
+    depends_on:
+      - db
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
