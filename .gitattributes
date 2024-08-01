@@ -1,0 +1,5 @@
+ Convertir tous les fichiers texte en LF
+* text eol=lf
+
+# Fichiers spécifiques en CRLF
+*.bat text eol=crlf
