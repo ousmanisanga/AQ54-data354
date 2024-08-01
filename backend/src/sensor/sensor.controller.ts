@@ -21,4 +21,8 @@ export class SensorController {
     async getAggregatedData(@Query('period') period: 'hourly' | 'daily') {
         return this.sensorService.getAggregatedData(period);
     }
+    @Get()
+    async getSensorData(){
+        return this.sensorService.getSensor();
+    }
 }

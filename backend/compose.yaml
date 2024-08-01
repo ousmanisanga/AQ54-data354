@@ -71,6 +71,7 @@ services:
     environment: 
       - PORT=3000
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres?schema=public
+      - JWT_SECRET= edb49326f1d9fa9e1a37d655d4f330431672b9bb2cf1447f8c64a410b4d58067
     ports:
       - '3000:3000'
     depends_on: 

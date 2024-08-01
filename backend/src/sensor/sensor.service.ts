@@ -6,6 +6,20 @@ import { firstValueFrom } from 'rxjs'
 @Injectable()
 export class SensorService {
     constructor(private readonly prisma: PrismaService , private readonly httpService: HttpService){}
+    async getSensor() {
+      const sensor = await this.prisma.sensorData.findMany({
+          // Selectionné ce qu'on veut recuperer
+          select: {
+              id: true,
+              unit : true,
+              sensor: true,
+              value: true, 
+              timestamp:true
+
+          }
+      })
+      return sensor;
+  }
     
     // La méthode fetchDataAPI permet de recuperer les données dépuis l'API et de les enregistrés dans la table SensorData de notre DB
     async fetchDataFromAPI(): Promise<void> {
