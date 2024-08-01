@@ -11,7 +11,7 @@ export class SensorController {
         try {
             await this.sensorService.fetchDataFromAPI();
         } catch (error) {
-            console.error('Error in fetchData:', error.message);
+            console.error('Erreur dans fetchData:', error.message);
             throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -21,6 +21,7 @@ export class SensorController {
     async getAggregatedData(@Query('period') period: 'hourly' | 'daily') {
         return this.sensorService.getAggregatedData(period);
     }
+    //recuperer les données des capteurs 
     @Get()
     async getSensorData(){
         return this.sensorService.getSensor();

@@ -51,9 +51,9 @@ export class UserService {
     
         return user;
       } catch (error) {
-        // Handle specific errors (e.g., Prisma errors, validation errors)
-        console.error('Error creating user:', error);
-        throw new Error('Failed to create user'); // Generic error message
+        
+        console.error('erreur durant la création:', error);
+        throw new Error('Echec de création du user'); 
       }
     }
     
@@ -66,7 +66,7 @@ export class UserService {
           });
           return user;
         } catch (error) {
-          throw new Error(`Error deleting user: ${error.message}`);
+          throw new Error(`Erreur suppression user: ${error.message}`);
         }
     }
     
@@ -80,7 +80,7 @@ export class UserService {
           });
           return user;
         } catch (error) {
-          throw new Error(`Error updating user: ${error.message}`);
+          throw new Error(`Erreur updating user: ${error.message}`);
         }
     }
 

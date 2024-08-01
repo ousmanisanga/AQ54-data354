@@ -29,10 +29,10 @@ export class SensorService {
         const response = await firstValueFrom(this.httpService.get(url));
         const data = response.data;
   
-        // Log the entire response to inspect its structure
+       
         console.log('Data fetched from API:', JSON.stringify(data, null, 2));
   
-        // Verify the data structure
+        // Verification de la structure des données
         if (!data || !data.timestamp || !Array.isArray(data.values)) {
           throw new HttpException('Invalid data format received from API', HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -42,11 +42,11 @@ export class SensorService {
           console.error('Invalid timestamp:', data.timestamp);
           throw new HttpException('Invalid timestamp received from API', HttpStatus.INTERNAL_SERVER_ERROR);
         }
-  
+        // insertion des données récuperer dans la db
         for (const item of data.values) {
           if (typeof item.value !== 'number') {
             console.error('Invalid value:', item.value);
-            continue; // Skip this item if the value is invalid
+            continue; 
           }
   
           await this.prisma.sensorData.create({
@@ -59,15 +59,15 @@ export class SensorService {
           });
         }
       } catch (error) {
-        console.error('Error fetching data from API:', error.message);
+        console.error('Erreur lors de la récupération des données à partir de API:', error.message);
         if (error.response) {
           console.error('API Response:', JSON.stringify(error.response.data, null, 2));
         }
-        throw new HttpException('Error fetching data from API', HttpStatus.INTERNAL_SERVER_ERROR);
+        throw new HttpException('Erreur lors de la récupération des données à partir de API', HttpStatus.INTERNAL_SERVER_ERROR);
       }
     } 
 
-    // Méthode async pour récuperer les données agrégées par en fonction l'heure ou du jour.
+    // Méthode async pour récuperer les données agrégées en fonction l'heure ou du jour.
     async getAggregatedData(period: 'hourly' | 'daily'): Promise<any> {
       if (period === 'hourly') {
         return this.prisma.$queryRaw`

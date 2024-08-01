@@ -64,7 +64,7 @@ export class AuthService {
 
     async register(createUserDto: CreateUserDto){
         const { email, name, password} = createUserDto;
-       // Vérifiez que l'email n'est pas undefined ou vide
+       // Vérifiez que l'email n'est pas  vide
       if (!email) {
         throw new Error("L'email est requis ")
       }

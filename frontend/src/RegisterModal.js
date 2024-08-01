@@ -26,13 +26,13 @@ function RegisterModal() {
       console.log('API response:', response.data)
 
       if (response.data.access_token) {
-        console.log("Registration successful", response.data.access_token);
+        console.log("success", response.data.access_token);
         login(response.data.access_token)
         navigate('/Dashboard');
         toggleModal();
       }
     } catch (error) {
-      console.error("Error registering user", error);
+      console.error("Erreur durant l'enregistrement user", error);
     }
   };
 
